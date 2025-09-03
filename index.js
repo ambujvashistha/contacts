@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 const express = require("express");
-const cors = require("cors");
+const cors = require("CORS");
 const morgan = require("morgan");
 const app = express();
 let db;
