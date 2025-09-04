@@ -1,6 +1,6 @@
 const mysql = require("mysql2/promise");
 const express = require("express");
-const cors = require("CORS");
+const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 let db;
@@ -9,15 +9,24 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-app.post("/contacts", (req, res) => {
+app.post("/contacts", async (req, res) => {
   const { name, email, mobile } = req.body;
-  const [results, fields] = db.query("INSERT INTO contacts VALUES (?,?,?)", [
-    name,
-    email,
-    mobile,
-  ]);
+  const [results] = await db.query(
+    `INSERT INTO contacts(Name,Email,Mobile) VALUES ("${name}","${email}","${Number(
+      mobile
+    )}")`
+  );
   if (results) {
-    res.status(200).send(`${result.insertID}`);
+    res.status(200).send(`${results.insertID}`);
+  } else {
+    res.send(500).send("Internal Server Error");
+  }
+});
+
+app.get("/contacts", async (req, res) => {
+  const [results] = await db.query("SELECT * FROM contacts");
+  if (results) {
+    res.status(200).send(`${results}`);
   } else {
     res.send(500).send("Internal Server Error");
   }
