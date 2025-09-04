@@ -17,7 +17,7 @@ app.post("/contacts", async (req, res) => {
     )}")`
   );
   if (results) {
-    res.status(200).send(`${results.insertID}`);
+    res.status(200).json(`${results.insertID}`);
   } else {
     res.send(500).send("Internal Server Error");
   }
