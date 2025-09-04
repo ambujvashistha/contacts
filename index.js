@@ -45,7 +45,7 @@ app.get("/contacts/:id", async (req, res) => {
 
 app.delete("/contacts/:id", async (req, res) => {
   const { id } = req.params;
-  await db.query("DELETE FROM contacts WHERE id=?", [id]);
+  await db.query("DELETE FROM contacts WHERE Sr=?;", [id]);
   const [results] = await db.query("SELECT * FROM contacts");
   if (results) {
     res.status(200).json(results);
