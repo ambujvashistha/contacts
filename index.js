@@ -34,7 +34,7 @@ app.get("/contacts", async (req, res) => {
 });
 
 app.get("/contacts/:id", async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   const [results] = await db.query(`SELECT * FROM contacts WHERE Sr=?;`, [id]);
   if (results) {
     res.status(200).json(results);
