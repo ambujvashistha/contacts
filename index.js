@@ -11,11 +11,12 @@ app.use(cors());
 
 app.post("/contacts", async (req, res) => {
   const { name, email, mobile } = req.body;
-  const [results] = await db.query(
+  await db.query(
     `INSERT INTO contacts(Name,Email,Mobile) VALUES ("${name}","${email}","${Number(
       mobile
     )}")`
   );
+  const [results] = await db.query("SELECT * FROM contacts");
   if (results) {
     res.status(200).json(results);
   } else {
