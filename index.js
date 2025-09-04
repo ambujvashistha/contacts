@@ -42,6 +42,12 @@ app.get("/contacts/:id", async (req, res) => {
     res.send(500).send("Internal Server Error");
   }
 });
+
+app.delete("/contacts/:id", async (req, res) => {
+  const { id } = req.params;
+  await db.query("DELETE FROM contacts WHERE id=?", [id]);
+});
+
 mysql
   .createConnection({
     host: "localhost",
