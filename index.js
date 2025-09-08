@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const app = express();
 const process = require("process");
 const multer = require("multer");
+const mimetype = require("mimetype");
 
 require("dotenv").config();
 
@@ -18,11 +19,12 @@ app.use(cors());
 
 app.post("/contacts", upload.single("photo"), async (req, res) => {
   const { name, email, mobile } = req.body;
-  const minetype = req.file ? req.file.buffer : null;
+  const { photo } = req.file ? req.file.buffer : null;
+  const mimetype = req.file ? req.file.mimetype : null;
   await db.query(
-    `INSERT INTO contacts(Name,Email,Mobile) VALUES ("${name}","${email}","${Number(
+    `INSERT INTO contacts(Name,Email,Mobile,Photo) VALUES ("${name}","${email}","${Number(
       mobile
-    )}")`
+    )}","${photo}")`
   );
   const [results] = await db.query("SELECT * FROM contacts");
   if (results) {
