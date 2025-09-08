@@ -3,6 +3,11 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
+const process = require("process");
+const multer = require("multer");
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 let db;
 
 app.use(morgan("dev"));
