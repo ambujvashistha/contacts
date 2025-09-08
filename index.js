@@ -6,6 +6,8 @@ const app = express();
 const process = require("process");
 const multer = require("multer");
 
+require("dotenv").config();
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 let db;
@@ -16,6 +18,7 @@ app.use(cors());
 
 app.post("/contacts", upload.single("photo"), async (req, res) => {
   const { name, email, mobile } = req.body;
+  const minetype = req.file ? req.file.buffer : null;
   await db.query(
     `INSERT INTO contacts(Name,Email,Mobile) VALUES ("${name}","${email}","${Number(
       mobile
@@ -63,7 +66,7 @@ mysql
   .createConnection({
     host: "localhost",
     user: "root",
-    password: "ambujmysql",
+    password: process.env.DB_Password,
     database: "contact_db",
   })
   .then((connection) => {
