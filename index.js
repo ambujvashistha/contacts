@@ -14,7 +14,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
 
-app.post("/contacts", async (req, res) => {
+app.post("/contacts", upload.single("photo"), async (req, res) => {
   const { name, email, mobile } = req.body;
   await db.query(
     `INSERT INTO contacts(Name,Email,Mobile) VALUES ("${name}","${email}","${Number(
